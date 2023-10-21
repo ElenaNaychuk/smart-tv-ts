@@ -1,0 +1,31 @@
+@import "vars";
+
+@font-face {
+  font-family: 'Roboto';
+}
+
+@mixin font($weight, $size, $color) {
+  font-weight: $weight;
+  font-size: $size;
+  font-family: $family;
+  color: $color;
+}
+
+@mixin button($weight, $size, $bg-color, $text-color) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  background: $bg-color;
+
+  @include font($weight, $size, $text-color);
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &[disabled] {
+    cursor: default;
+  }
+}
+
