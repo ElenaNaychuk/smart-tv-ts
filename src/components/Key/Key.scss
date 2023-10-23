@@ -1,0 +1,17 @@
+@use 'src/styles/mixins.scss' as mixins;
+@import "src/styles/vars.scss";
+
+.key {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 88px;
+  height: 52px;
+  padding: 12px;
+
+  @include mixins.button($light, $font-18, $background, $blackColor, $blackColor, $background);
+}
+
+.key-backspace {
+  width: 186px;
+}

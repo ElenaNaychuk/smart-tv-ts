@@ -11,7 +11,7 @@
   color: $color;
 }
 
-@mixin button($weight, $size, $bg-color, $text-color) {
+@mixin button($weight, $size, $bg-color, $text-color,$bg-color-focus, $text-color-focus) {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,6 +22,11 @@
 
   &:hover {
     cursor: pointer;
+  }
+
+  &:focus {
+    background: $bg-color-focus;
+    @include font($weight, $size, $text-color-focus);
   }
 
   &[disabled] {

@@ -1,0 +1,42 @@
+@use 'src/styles/mixins.scss' as mixins;
+@import "src/styles/vars.scss";
+
+.registrationForm-container {
+  width: 380px;
+  height: 100%;
+  background: $background;
+  padding: 40px 24px;
+  text-align: center;
+
+  .registrationForm-title {
+    @include mixins.font($normal, $font-26, $blackColor);
+  }
+
+  .registrationForm-form {
+
+    .form-input-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 13px;
+
+      @include mixins.font($normal, $font-14, $blackColor);
+
+      .form-input {
+        width: 267px;
+        height: 38px;
+        background: $background;
+        border: none;
+        @include mixins.font($bold, $font-32, $blackColor);
+      }
+
+      .form-input:focus {
+        outline: none;
+      }
+    }
+
+    .form-buttons {
+      height: 278px;
+    }
+  }
+}

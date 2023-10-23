@@ -38,7 +38,7 @@
       height: 52px;
       padding: 16px;
       margin: 0 auto;
-      @include mixins.button($light, $font-18, $blackColor, $background);
+      @include mixins.button($light, $font-18, $background, $blackColor, $blackColor, $background);
     }
   }
 }
