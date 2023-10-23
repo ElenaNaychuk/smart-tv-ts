@@ -4,7 +4,9 @@ import "./RegistrationForm.scss";
 import {Keyboard} from "../Keyboard/Keyboard";
 
 const RegistrationForm:React.FC = () => {
-    const [phoneValue, setPhoneValue] = useState('');
+    const [phoneValue, setPhoneValue] = useState('+7');
+
+    console.log(phoneValue)
 
     return(
         <div className='registrationForm-container'>
@@ -13,13 +15,14 @@ const RegistrationForm:React.FC = () => {
                 <label className='form-input-container'>
                     <InputMask
                         className='form-input'
-                        mask='+7(_ _ _)_ _ _-_ _-_ _'
+                        mask='+7(999)999-99-99'
                         alwaysShowMask={true}
+                        value={phoneValue}
                     />
                     и с Вами свяжется наш менеждер для <br/> дальнейшей консультации
                 </label>
                 <div className='form-buttons'>
-                    <Keyboard />
+                    <Keyboard setPhoneValue={setPhoneValue} phoneValue={phoneValue}/>
                 </div>
                 <div className="form-check">
                     <input
