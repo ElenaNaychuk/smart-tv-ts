@@ -1,34 +1,29 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef} from "react";
 import "./Key.scss";
 
 interface KeyProps {
     value: string;
-    onClick?: (value: string) => void;
+    onKeyPress: (value: string) => void;
     isWide?: boolean;
-    setPhoneValue: (value: string) => void;
-    phoneValue:string;
+    activeKey: string;
 }
 
-const Key:React.FC<KeyProps> = ({ value, isWide, setPhoneValue, phoneValue}) => {
+const Key: React.FC<KeyProps> = ({value, isWide, onKeyPress, activeKey}) => {
     const keyRef = useRef<HTMLButtonElement | null>(null);
     const keyClass = `key ${isWide ? 'key-backspace' : ''}`;
 
-    useEffect(() => {
-        if(!keyRef.current) return;
-        if (keyRef.current.value === '5') {
-            keyRef.current.focus();
+    useEffect(()=>{
+        if(value === activeKey) {
+            keyRef?.current?.focus();
         }
-    }, []);
+    }, [activeKey])
 
-    return(
+    return (
         <button
             ref={keyRef}
             className={keyClass}
             value={value}
-            onClick={(e)=>{
-                e.preventDefault();
-                setPhoneValue(phoneValue+value);
-            }}
+            onClick={event => onKeyPress?.((event.target as HTMLButtonElement).value)}
         >
             {value}
         </button>

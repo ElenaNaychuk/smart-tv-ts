@@ -5,10 +5,10 @@
   width: 380px;
   height: 100%;
   background: $background;
-  padding: 40px 24px;
-  text-align: center;
+  padding: 80px 24px;
 
   .registrationForm-title {
+    text-align: center;
     @include mixins.font($normal, $font-26, $blackColor);
   }
 
@@ -26,6 +26,7 @@
         width: 267px;
         height: 38px;
         background: $background;
+        margin-top: 10px;
         border: none;
         @include mixins.font($bold, $font-32, $blackColor);
       }
@@ -37,6 +38,43 @@
 
     .form-buttons {
       height: 278px;
+    }
+
+    .form-check {
+      width: 284px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+
+      .form-check-input {
+        appearance: none;
+        width: 52px;
+        height: 40px;
+        border: 2px solid $blackColor;
+        background: $background;
+        cursor: pointer;
+      }
+
+      .form-check-input:checked:after {
+        content: '\2714';
+        width: 40px;
+        height: 40px;
+        font-size: 30px;
+        padding: 5px;
+      }
+
+      .form-check-label {
+          padding-top: 4px;
+          @include mixins.font($light, $font-14, $blackColor);
+      }
+    }
+
+    .form-button {
+      width: 284px;
+      height: 52px;
+      margin: 13px auto 0 auto;
+      @include mixins.button($light, $font-18, $background, $blackColor, $blackColor, $background);
     }
   }
 }

@@ -1,3 +1,6 @@
+@use 'src/styles/mixins.scss' as mixins;
+@import "src/styles/vars.scss";
+
 .registrationPage-container {
   position: absolute;
   width: 100%;
@@ -8,4 +11,38 @@
   .registrationPage-form {
     width: 100%;
   }
+
+  .registrationPage-info-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px;
+
+    .registrationPage-closeBtn {
+      width: 88px;
+      height: 52px;
+      margin-left: 220px;
+      @include mixins.button($light, $font-18, $whiteColor, $blackColor, $blackColor, $background);
+    }
+
+    .registrationPage-QR-code {
+      display: flex;
+      justify-content: flex-end;
+
+      .registrationPage-text {
+        display: flex;
+        align-items: center;
+        text-align: end;
+        padding-right: 5px;
+        width: 194px;
+        @include mixins.font($light, $font-16, $whiteColor);
+      }
+
+      .registrationPage-img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
+
 }

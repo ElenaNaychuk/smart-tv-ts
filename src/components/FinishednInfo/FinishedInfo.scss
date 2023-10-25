@@ -1,0 +1,24 @@
+@use 'src/styles/mixins.scss' as mixins;
+@import "src/styles/vars.scss";
+
+.finished-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 380px;
+  height: 100%;
+  padding: 48px;
+  background: $background;
+  text-align: center;
+
+  .finished-info-title {
+    padding: 0 20px;
+    @include mixins.font($bold, $font-32, $blackColor);
+  }
+
+  .finished-info-text {
+    @include mixins.font($light, $font-14, $blackColor);
+  }
+}
