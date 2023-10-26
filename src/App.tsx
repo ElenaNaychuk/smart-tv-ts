@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {HomePage} from "./pages/HomePage";
+import {HomePage} from "./pages/HomePage/HomePage";
 import {Route, Routes, useLocation} from "react-router-dom";
 import {RegistrationPage} from "./pages/RegistrationPage/RegistrationPage";
 import './App.scss';

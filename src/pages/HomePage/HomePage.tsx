@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Banner} from "../components/Banner/Banner";
+import {Banner} from "../../components/Banner/Banner";
 import "./HomePage.scss";
 
 const HomePage:React.FC = () => {

@@ -22,7 +22,7 @@
       width: 88px;
       height: 52px;
       margin-left: 220px;
-      @include mixins.button($light, $font-18, $whiteColor, $blackColor, $blackColor, $background);
+      @include mixins.button($light, $font-18, $whiteColor, $blackColor, $blackColor, $background, $greyColor);
     }
 
     .registrationPage-QR-code {

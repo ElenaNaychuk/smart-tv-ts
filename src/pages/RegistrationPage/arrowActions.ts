@@ -2,7 +2,11 @@ function getLocation(map: string[][]) {
     const button = document.activeElement as HTMLElement;
     const key = button?.dataset.key;
     let x = -1;
-    const y = map.findIndex(row => (x = row.findIndex(cell => cell === key)) !== -1);
+    let y = map.findIndex(row => (x = row.findIndex(cell => cell === key)) !== -1);
+    if (x === -1 || y === -1) {
+        x = 0;
+        y = 0;
+    }
     return {x, y};
 }
 

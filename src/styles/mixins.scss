@@ -11,7 +11,7 @@
   color: $color;
 }
 
-@mixin button($weight, $size, $bg-color, $text-color,$bg-color-focus, $text-color-focus) {
+@mixin button($weight, $size, $bg-color, $text-color,$bg-color-focus, $text-color-focus, $text-color-dsl) {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,6 +31,7 @@
 
   &[disabled] {
     cursor: default;
+    @include font($weight, $size, $text-color-dsl);
   }
 }
 

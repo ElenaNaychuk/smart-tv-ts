@@ -3,13 +3,13 @@ import qrCode from "../../assets/images/QR-code-icon.svg";
 import {RegistrationForm} from "../../components/RegistrationForm/RegistrationForm";
 import {useNavigate} from "react-router-dom";
 import {FinishedInfo} from "../../components/FinishednInfo/FinishedInfo";
-import {_5, buttonsMap, x_} from "./buttonsMap";
+import {_5, buttonsMap, cl, x_} from "./buttonsMap";
 import {
     arrowDownHandler,
     arrowLeftHandler,
     arrowRightHandler,
     arrowUpHandler
-} from "../../components/Keyboard/arrowActions";
+} from "./arrowActions";
 import "./RegistrationPage.scss";
 
 const RegistrationPage: React.FC = () => {
@@ -34,16 +34,11 @@ const RegistrationPage: React.FC = () => {
     };
 
     useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, []);
-
-    useEffect(() => {
-        setFocusFnsRef.current[x_] = ()=>closeBtnRef.current?.focus();
+        setFocusFnsRef.current[x_] = () => closeBtnRef.current?.focus();
         setFocusFnsRef.current[_5]();
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
     }, []);
 
     useEffect(() => {
@@ -59,7 +54,7 @@ const RegistrationPage: React.FC = () => {
                     ? <RegistrationForm
                         setFinishedRegistering={setFinishedRegistering}
                         setSetFocus={(key: string, setFocus: () => void) => setFocusFnsRef.current[key] = setFocus}
-                        setFocusFnsRef={setFocusFnsRef}
+                        onInvalid={() => setFocusFnsRef.current[cl]()}
                     />
                     : <FinishedInfo/>
                 }

@@ -1,20 +1,22 @@
-import React, {FormEvent, MutableRefObject, useEffect, useRef, useState} from "react";
+import React, {FormEvent, useEffect, useRef, useState} from "react";
 import InputMask from "react-input-mask";
 import {Keyboard} from "../Keyboard/Keyboard";
 import {ac, cl, co} from "../../pages/RegistrationPage/buttonsMap";
-import {requestValidNumber} from "./requestValidNumber";
 import "./RegistrationForm.scss";
+import {requestValidNumber} from "./requestValidNumber";
 
 interface RegistrationFormProps {
     setFinishedRegistering: (value: boolean) => void;
     setSetFocus: (btnKey: string, setFocus: () => void) => void;
-    setFocusFnsRef:MutableRefObject<{ [key: string]: () => void; }>;
+    onInvalid: () => void;
 }
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegistering, setSetFocus, setFocusFnsRef}) => {
+const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegistering, setSetFocus, onInvalid}) => {
     const [phoneValue, setPhoneValue] = useState('');
     const [isChecked, setIsChecked] = useState(false);
-    const [validNumber, setValidNumber] = useState(true);
+    const [isNumberValid, setIsNumberValid] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+
     const confirmBtnRef = useRef<HTMLButtonElement | null>(null);
     const acceptInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -26,33 +28,30 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegisteri
     }, []);
 
     const onKeyPress = (value: string) => {
-        if (value === 'clear' || value === 'Backspace') {
-            setPhoneValue((prevInput) => prevInput.slice(0, -1));
-        } else {
-            phoneValue.length < 10 &&
-            setPhoneValue((prevInput) => prevInput + value);
-        }
-        setValidNumber(true);
+        setPhoneValue((phoneValue) => {
+            if (value === cl) {
+                return phoneValue.slice(0, -1);
+            } else if (phoneValue.length < 10) {
+                return phoneValue + value;
+            }
+            return phoneValue;
+        });
+        setIsNumberValid(true);
     }
 
-    const handleSubmit = async(e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         if (!isValidForm) return;
 
-        // const response = await requestValidNumber(phoneValue);
-        //
-        // setValidNumber(response.valid)
-        // setFinishedRegistering(response.valid);
-        //
-        // if(!response.valid) {
-        //     setFocusFnsRef.current[cl]();
-        // }
-        // console.log(response)
-        setFocusFnsRef.current[cl]();
-        setValidNumber(false)
-        setFinishedRegistering(false);
+        setIsLoading(true);
+        const response = await requestValidNumber(phoneValue);
+        setIsLoading(false);
 
-
+        setIsNumberValid(response.valid)
+        setFinishedRegistering(response.valid);
+        if(!response.valid) {
+            onInvalid();
+        }
     }
 
     return (
@@ -61,10 +60,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegisteri
             <form className='registrationForm-form' onSubmit={handleSubmit}>
                 <label className='form-input-container'>
                     <InputMask
-                        className={validNumber ? 'form-input' : 'form-input form-input-error'}
+                        className={isNumberValid ? 'form-input' : 'form-input form-input-error'}
                         mask='+7(999)999-99-99'
-                        alwaysShowMask={true}
-                        value={phoneValue}
+                        alwaysShowMask={true}                //Warning: findDOMNode is deprecated in StrictMode
+                        value={phoneValue}                   //https://github.com/sanniassin/react-input-mask/issues/239
+                        readOnly
                     />
                     и с Вами свяжется наш менеждер для <br/> дальнейшей консультации
                 </label>
@@ -75,22 +75,23 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegisteri
                     />
                 </div>
                 <div className="form-check">
-                    {!validNumber
-                        ?<p className="form-check-error">Неверно введён номер</p>
-                        :<>
+                    {!isNumberValid
+                        ? <p className="form-check-error">Неверно введён номер</p>
+                        : <>
                             <input
+                                id='radio'
                                 data-key={ac}
                                 ref={acceptInputRef}
+                                checked={isChecked}
                                 onChange={(e) => setIsChecked(e.target.checked)}
                                 className="form-check-input"
                                 type="radio"
                             />
-                            <label className="form-check-label">
+                            <label className="form-check-label" htmlFor='radio'>
                                 <span></span>Согласие на обработку персональных данных
                             </label>
                         </>
                     }
-
                 </div>
                 <button
                     data-key={co}
@@ -98,7 +99,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegisteri
                     disabled={!isValidForm}
                     ref={confirmBtnRef}
                 >
-                    Подтвердить номер
+                    {isLoading ? 'Loading...' : 'Подтвердить номер'}
                 </button>
             </form>
         </div>

@@ -9,7 +9,7 @@
   height: 52px;
   padding: 12px;
 
-  @include mixins.button($light, $font-18, $background, $blackColor, $blackColor, $background);
+  @include mixins.button($light, $font-18, $background, $blackColor, $blackColor, $background, $greyColor);
 }
 
 .key-backspace {

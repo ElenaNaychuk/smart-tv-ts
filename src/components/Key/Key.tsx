@@ -1,13 +1,15 @@
-import React, {useEffect, useRef} from "react";
+import React, {FormEvent, useEffect, useRef} from "react";
 import "./Key.scss";
+import {cl} from "../../pages/RegistrationPage/buttonsMap";
 
 interface KeyProps {
     value: string;
-    onKeyPress: (value: string) => void;
+    onClick: (e:FormEvent) => void;
     isWide: boolean;
     setSetFocus: (setFocus: () => void) => void;
 }
-const Key: React.FC<KeyProps> = ({value, isWide, onKeyPress, setSetFocus}) => {
+
+const Key: React.FC<KeyProps> = ({value, isWide, onClick, setSetFocus}) => {
     const keyRef = useRef<HTMLButtonElement | null>(null);
     const keyClass = `key ${isWide ? 'key-backspace' : ''}`;
 
@@ -17,13 +19,13 @@ const Key: React.FC<KeyProps> = ({value, isWide, onKeyPress, setSetFocus}) => {
 
     return (
         <button
-            data-key={value}
+            data-key={value === 'Стереть' ? cl : value}
             ref={keyRef}
             className={keyClass}
             value={value}
-            onClick={event => onKeyPress?.((event.target as HTMLButtonElement).value)}
+            onClick={onClick}
         >
-            {value === 'clear' ? 'Стереть': value}
+            {value}
         </button>
     )
 }

@@ -85,7 +85,7 @@
       width: 284px;
       height: 52px;
       margin: 13px auto 0 auto;
-      @include mixins.button($light, $font-18, $background, $blackColor, $blackColor, $background);
+      @include mixins.button($light, $font-18, $background, $blackColor, $blackColor, $background, $greyColor);
     }
   }
 }
