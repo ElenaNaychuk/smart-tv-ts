@@ -1,42 +1,37 @@
-export const arrowDownHandler = (keys: string[] ,activeKey: string, setActiveKey:(value:string)=>void) =>{
-    let nextIndex;
-    const currentIndex = keys.indexOf(activeKey);
-    if([0, 1, 2, 3, 4, 5].includes(Number(currentIndex))) nextIndex = currentIndex + 3;
-    if(currentIndex === 6 || currentIndex === 7) nextIndex = keys.indexOf('Стереть');
-    if(currentIndex === 8) nextIndex = keys.length - 1;
-    if(nextIndex) {
-        setActiveKey(keys[nextIndex])
-    }
+function getLocation(map: string[][]) {
+    const button = document.activeElement as HTMLElement;
+    const key = button?.dataset.key;
+    let x = -1;
+    const y = map.findIndex(row => (x = row.findIndex(cell => cell === key)) !== -1);
+    return {x, y};
 }
 
-export const arrowUpHandler = (keys: string[] ,activeKey: string, setActiveKey:(value:string)=>void) =>{
-    let nextIndex;
-    const currentIndex = keys.indexOf(activeKey);
-    if([3, 4, 5, 6, 7, 8, 9].includes(Number(currentIndex))) nextIndex = currentIndex - 3;
-    if(currentIndex === keys.indexOf('Стереть') || currentIndex === keys.length - 1) nextIndex = currentIndex - 2;
-    if(nextIndex || nextIndex === 0) {
-        setActiveKey(keys[nextIndex])
-    }
+export const arrowDownHandler = (map: string[][]) => {
+    let {x, y} = getLocation(map);
+    if (y === map.length - 1) return map[y][x];
+    y++;
+    return map[y][x];
 }
 
-export const arrowRightHandler = (keys: string[] ,activeKey: string, setActiveKey:(value:string)=>void) =>{
-    let nextIndex;
-    const currentIndex = keys.indexOf(activeKey);
-    if(currentIndex === keys.length -1) {
-        nextIndex = 0;
-    } else {
-        nextIndex = currentIndex + 1;
-    }
-    if(nextIndex || nextIndex === 0) {
-        setActiveKey(keys[nextIndex])
-    }
+export const arrowUpHandler = (map: string[][]) => {
+    let {x, y} = getLocation(map);
+    if (y === 0) return map[y][x];
+    y--;
+    return map[y][x];
 }
 
-export const arrowLeftHandler = (keys: string[] ,activeKey: string, setActiveKey:(value:string)=>void) =>{
-    let nextIndex;
-    const currentIndex = keys.indexOf(activeKey);
-    if(currentIndex !== 0) nextIndex = currentIndex - 1;
-    if(nextIndex || nextIndex === 0) {
-        setActiveKey(keys[nextIndex])
-    }
+export const arrowRightHandler = (map: string[][]) => {
+    let {x, y} = getLocation(map);
+    const prevKey = map[y][x];
+    const edgeIndex = map[y].length - 1;
+    for (; map[y][x] === prevKey && x !== edgeIndex;) x++;
+    return map[y][x];
+}
+
+export const arrowLeftHandler = (map: string[][]) => {
+    let {x, y} = getLocation(map);
+    const prevKey = map[y][x];
+    const edgeIndex = 0;
+    for (; map[y][x] === prevKey && x !== edgeIndex;) x--;
+    return map[y][x];
 }

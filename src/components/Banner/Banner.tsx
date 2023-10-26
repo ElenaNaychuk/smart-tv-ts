@@ -14,7 +14,6 @@ const Banner:React.FC= () => {
     const handleClick = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         navigate('/registration');
-        console.log('click')
     }
 
     return(

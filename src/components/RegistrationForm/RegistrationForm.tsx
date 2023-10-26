@@ -1,26 +1,26 @@
-import React, {FormEvent, useCallback, useEffect, useMemo, useRef, useState} from "react";
+import React, {FormEvent, useEffect, useRef, useState} from "react";
 import InputMask from "react-input-mask";
 import {Keyboard} from "../Keyboard/Keyboard";
+import {ac, co} from "../../pages/RegistrationPage/buttonsMap";
 import "./RegistrationForm.scss";
 
 interface RegistrationFormProps {
-    setFinishedRegistering: (value:boolean) => void;
+    setFinishedRegistering: (value: boolean) => void;
+    setSetFocus: (btnKey: string, setFocus: () => void) => void;
 }
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegistering}) => {
+const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegistering, setSetFocus}) => {
     const [phoneValue, setPhoneValue] = useState('');
     const [isChecked, setIsChecked] = useState(false);
-    const [activeKey, setActiveKey] = useState('5');
-    const btnRef = useRef<HTMLButtonElement | null>(null);
-    const inputRef = useRef<HTMLInputElement | null>(null);
-
-    const validForm = phoneValue.length === 10 && isChecked;
+    const confirmBtnRef = useRef<HTMLButtonElement | null>(null);
+    const acceptInputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
-        if (btnRef.current && validForm) {
-            btnRef.current?.focus();
-        }
-    }, [validForm]);
+        setSetFocus(ac, () => acceptInputRef.current?.focus());
+        setSetFocus(co, () => confirmBtnRef.current?.focus());
+    }, []);
+
+    const validForm = phoneValue.length === 10 && isChecked;
 
     const onKeyPress = (value: string) => {
         if (value === 'Стереть' || value === 'Backspace') {
@@ -29,12 +29,17 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegisteri
             phoneValue.length < 10 &&
             setPhoneValue((prevInput) => prevInput + value);
         }
-        setActiveKey(value);
     }
+
+    useEffect(() => {
+        if (confirmBtnRef.current && validForm) {
+            confirmBtnRef.current?.focus();
+        }
+    }, [validForm]);
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        if(!validForm) return;
+        if (!validForm) return;
         setFinishedRegistering(true);
     }
 
@@ -54,14 +59,14 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegisteri
                 <div className='form-buttons'>
                     <Keyboard
                         onKeyPress={onKeyPress}
-                        activeKey={activeKey}
-                        setActiveKey={setActiveKey}
+                        setSetFocus={setSetFocus}
                     />
                 </div>
                 <div className="form-check">
                     <input
-                        ref={inputRef}
-                        onChange={() => setIsChecked(!isChecked)}
+                        data-key={ac}
+                        ref={acceptInputRef}
+                        onChange={(e) => setIsChecked(e.target.checked)}
                         className="form-check-input"
                         type="radio"
                     />
@@ -70,9 +75,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegisteri
                     </label>
                 </div>
                 <button
+                    data-key={co}
                     className="form-button"
                     disabled={!validForm}
-                    ref={btnRef}
+                    ref={confirmBtnRef}
                 >
                     Подтвердить номер
                 </button>
