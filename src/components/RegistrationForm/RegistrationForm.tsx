@@ -1,46 +1,58 @@
-import React, {FormEvent, useEffect, useRef, useState} from "react";
+import React, {FormEvent, MutableRefObject, useEffect, useRef, useState} from "react";
 import InputMask from "react-input-mask";
 import {Keyboard} from "../Keyboard/Keyboard";
-import {ac, co} from "../../pages/RegistrationPage/buttonsMap";
+import {ac, cl, co} from "../../pages/RegistrationPage/buttonsMap";
+import {requestValidNumber} from "./requestValidNumber";
 import "./RegistrationForm.scss";
 
 interface RegistrationFormProps {
     setFinishedRegistering: (value: boolean) => void;
     setSetFocus: (btnKey: string, setFocus: () => void) => void;
+    setFocusFnsRef:MutableRefObject<{ [key: string]: () => void; }>;
 }
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegistering, setSetFocus}) => {
+const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegistering, setSetFocus, setFocusFnsRef}) => {
     const [phoneValue, setPhoneValue] = useState('');
     const [isChecked, setIsChecked] = useState(false);
+    const [validNumber, setValidNumber] = useState(true);
     const confirmBtnRef = useRef<HTMLButtonElement | null>(null);
     const acceptInputRef = useRef<HTMLInputElement | null>(null);
+
+    const isValidForm = phoneValue.length === 10 && isChecked;
 
     useEffect(() => {
         setSetFocus(ac, () => acceptInputRef.current?.focus());
         setSetFocus(co, () => confirmBtnRef.current?.focus());
     }, []);
 
-    const validForm = phoneValue.length === 10 && isChecked;
-
     const onKeyPress = (value: string) => {
-        if (value === 'Стереть' || value === 'Backspace') {
+        if (value === 'clear' || value === 'Backspace') {
             setPhoneValue((prevInput) => prevInput.slice(0, -1));
         } else {
             phoneValue.length < 10 &&
             setPhoneValue((prevInput) => prevInput + value);
         }
+        setValidNumber(true);
     }
 
-    useEffect(() => {
-        if (confirmBtnRef.current && validForm) {
-            confirmBtnRef.current?.focus();
-        }
-    }, [validForm]);
-
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async(e: FormEvent) => {
         e.preventDefault();
-        if (!validForm) return;
-        setFinishedRegistering(true);
+        if (!isValidForm) return;
+
+        // const response = await requestValidNumber(phoneValue);
+        //
+        // setValidNumber(response.valid)
+        // setFinishedRegistering(response.valid);
+        //
+        // if(!response.valid) {
+        //     setFocusFnsRef.current[cl]();
+        // }
+        // console.log(response)
+        setFocusFnsRef.current[cl]();
+        setValidNumber(false)
+        setFinishedRegistering(false);
+
+
     }
 
     return (
@@ -49,7 +61,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegisteri
             <form className='registrationForm-form' onSubmit={handleSubmit}>
                 <label className='form-input-container'>
                     <InputMask
-                        className='form-input'
+                        className={validNumber ? 'form-input' : 'form-input form-input-error'}
                         mask='+7(999)999-99-99'
                         alwaysShowMask={true}
                         value={phoneValue}
@@ -63,21 +75,27 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({setFinishedRegisteri
                     />
                 </div>
                 <div className="form-check">
-                    <input
-                        data-key={ac}
-                        ref={acceptInputRef}
-                        onChange={(e) => setIsChecked(e.target.checked)}
-                        className="form-check-input"
-                        type="radio"
-                    />
-                    <label className="form-check-label">
-                        <span></span>Согласие на обработку персональных данных
-                    </label>
+                    {!validNumber
+                        ?<p className="form-check-error">Неверно введён номер</p>
+                        :<>
+                            <input
+                                data-key={ac}
+                                ref={acceptInputRef}
+                                onChange={(e) => setIsChecked(e.target.checked)}
+                                className="form-check-input"
+                                type="radio"
+                            />
+                            <label className="form-check-label">
+                                <span></span>Согласие на обработку персональных данных
+                            </label>
+                        </>
+                    }
+
                 </div>
                 <button
                     data-key={co}
                     className="form-button"
-                    disabled={!validForm}
+                    disabled={!isValidForm}
                     ref={confirmBtnRef}
                 >
                     Подтвердить номер

@@ -20,20 +20,15 @@ const RegistrationPage: React.FC = () => {
 
     const handleKeyDown = (event: KeyboardEvent) => {
         const pressedKey = event.key;
-        if (pressedKey === 'ArrowUp') {
-            const nextKey = arrowUpHandler(buttonsMap);
-            setFocusFnsRef.current[nextKey]();
-        }
-        if (pressedKey === 'ArrowDown') {
-            const nextKey = arrowDownHandler(buttonsMap);
-            setFocusFnsRef.current[nextKey]();
-        }
-        if (pressedKey === 'ArrowRight') {
-            const nextKey = arrowRightHandler(buttonsMap);
-            setFocusFnsRef.current[nextKey]();
-        }
-        if (pressedKey === 'ArrowLeft') {
-            const nextKey = arrowLeftHandler(buttonsMap);
+        const keyHandlers: Record<string, (buttonsMap: string[][]) => string> = {
+            ArrowUp: arrowUpHandler,
+            ArrowDown: arrowDownHandler,
+            ArrowRight: arrowRightHandler,
+            ArrowLeft: arrowLeftHandler,
+        };
+
+        if (keyHandlers.hasOwnProperty(pressedKey)) {
+            const nextKey = keyHandlers[pressedKey](buttonsMap);
             setFocusFnsRef.current[nextKey]();
         }
     };
@@ -64,6 +59,7 @@ const RegistrationPage: React.FC = () => {
                     ? <RegistrationForm
                         setFinishedRegistering={setFinishedRegistering}
                         setSetFocus={(key: string, setFocus: () => void) => setFocusFnsRef.current[key] = setFocus}
+                        setFocusFnsRef={setFocusFnsRef}
                     />
                     : <FinishedInfo/>
                 }

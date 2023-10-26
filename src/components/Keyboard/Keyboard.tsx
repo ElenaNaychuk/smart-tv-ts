@@ -14,7 +14,7 @@ const Keyboard: React.FC<KeyboardProps> = ({onKeyPress, setSetFocus}) => {
 
     const handleKeyDown = (event: KeyboardEvent) => {
         const pressedKey = event.key;
-        if (pressedKey === 'Backspace') onKeyPress(pressedKey);
+        if (pressedKey === 'Стереть' || pressedKey === 'Backspace') onKeyPress(pressedKey);
         if (!isNaN(Number(pressedKey)) && event.code !== 'Space') {
             onKeyPress(pressedKey);
         }

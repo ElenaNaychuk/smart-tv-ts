@@ -31,6 +31,10 @@
         @include mixins.font($bold, $font-32, $blackColor);
       }
 
+      .form-input-error {
+        @include mixins.font($bold, $font-32, $redColor);
+      }
+
       .form-input:focus {
         outline: none;
       }
@@ -42,6 +46,7 @@
 
     .form-check {
       width: 284px;
+      min-height: 30px;
       margin: 0 auto;
       display: flex;
       justify-content: flex-start;
@@ -67,6 +72,12 @@
       .form-check-label {
           padding-top: 4px;
           @include mixins.font($light, $font-14, $blackColor);
+      }
+
+      .form-check-error {
+        display: block;
+        margin: 0 auto;
+        @include mixins.font($light, $font-16, $redColor);
       }
     }
 
