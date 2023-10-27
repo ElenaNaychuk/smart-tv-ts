@@ -2,6 +2,7 @@
   "name": "smart-tv-ts",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://elenanaychuk.github.io/smart-tv-ts/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -11,6 +12,7 @@
     "@types/react": "^18.2.31",
     "@types/react-dom": "^18.2.14",
     "@types/react-input-mask": "^3.0.4",
+    "gh-pages": "^6.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-input-mask": "^2.0.4",
@@ -21,6 +23,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

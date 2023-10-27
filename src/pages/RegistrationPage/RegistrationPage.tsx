@@ -10,6 +10,7 @@ import {
     arrowRightHandler,
     arrowUpHandler
 } from "./arrowActions";
+import {homePath} from "../../App";
 import "./RegistrationPage.scss";
 
 const RegistrationPage: React.FC = () => {
@@ -63,7 +64,7 @@ const RegistrationPage: React.FC = () => {
                 <button
                     data-key={x_}
                     className='registrationPage-closeBtn'
-                    onClick={() => navigate('/')}
+                    onClick={() => navigate(homePath)}
                     ref={closeBtnRef}
                 >
                     &#10006;

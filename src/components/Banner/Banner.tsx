@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from "react";
 import qrCode from "../../assets/images/QR-code-icon.svg";
 import "./Banner.scss"
 import {useNavigate} from "react-router-dom";
+import {registrationPath} from "../../App";
 
 const Banner:React.FC= () => {
     const bannerRef = useRef<HTMLButtonElement | null>(null);
@@ -13,7 +14,7 @@ const Banner:React.FC= () => {
 
     const handleClick = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        navigate('/registration');
+        navigate(registrationPath);
     }
 
     return(

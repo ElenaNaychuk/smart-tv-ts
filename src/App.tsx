@@ -5,12 +5,15 @@ import {RegistrationPage} from "./pages/RegistrationPage/RegistrationPage";
 import './App.scss';
 import videoPath from "./assets/videos/Volvo-Trucks.mp4";
 
+export const homePath = '/smart-tv-ts/';
+export const registrationPath = '/smart-tv-ts/registration';
+
 function App() {
     const videoElemRef = useRef<HTMLVideoElement | null>(null);
     const location = useLocation();
 
     useEffect(()=>{
-        location.pathname === '/'
+        location.pathname === homePath
             ? videoElemRef?.current?.play()
             : videoElemRef?.current?.pause();
     },[location.pathname])
@@ -26,8 +29,8 @@ function App() {
         >
         </video>
         <Routes>
-            <Route path='/' element={<HomePage/>}/>
-            <Route path='/registration' element={<RegistrationPage/>}/>
+            <Route path={homePath} element={<HomePage/>}/>
+            <Route path={registrationPath} element={<RegistrationPage/>}/>
         </Routes>
     </div>
   );
