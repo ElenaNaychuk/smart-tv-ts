@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/smart-tv-ts/static/css/main.969ca5ac.css",
+    "main.js": "/smart-tv-ts/static/js/main.5b0106e7.js",
+    "static/media/Volvo-Trucks.mp4": "/smart-tv-ts/static/media/Volvo-Trucks.ff7fe0edfcb242e04ea3.mp4",
+    "static/media/QR-code-icon.svg": "/smart-tv-ts/static/media/QR-code-icon.af1204d6c796eb3a4d8a4999a620e38d.svg",
+    "index.html": "/smart-tv-ts/index.html",
+    "main.969ca5ac.css.map": "/smart-tv-ts/static/css/main.969ca5ac.css.map",
+    "main.5b0106e7.js.map": "/smart-tv-ts/static/js/main.5b0106e7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.969ca5ac.css",
+    "static/js/main.5b0106e7.js"
+  ]
+}
